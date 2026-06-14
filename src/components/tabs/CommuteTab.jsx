@@ -80,12 +80,12 @@ export default function CommuteTab() {
   const validInstitutionEmail = /@[^\s@]+\.(edu|ac\.in)$/i.test(email.trim());
 
   useEffect(() => {
-    if (step === 2) {
+    if (commuteStep === 2) {
       const pulseId = window.setInterval(() => setMapPulse((current) => !current), 1000);
       return () => window.clearInterval(pulseId);
     }
     return undefined;
-  }, [step]);
+  }, [commuteStep]);
 
   useEffect(() => {
     if (!showOverlay) {
