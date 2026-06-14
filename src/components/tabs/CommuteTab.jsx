@@ -43,11 +43,18 @@ export default function CommuteTab() {
     matchedHeadcount,
     setMatchedHeadcount,
     triggerRewardHighlight,
+    authenticateUser,
+    currentUser,
   } = useAppContext();
 
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [institution, setInstitution] = useState("");
+  const [age, setAge] = useState("");
+  const [degree, setDegree] = useState("");
+  const [specialization, setSpecialization] = useState("");
   const [verifyState, setVerifyState] = useState("idle");
   const [mapPulse, setMapPulse] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
@@ -104,8 +111,19 @@ export default function CommuteTab() {
     if (verifyState !== "idle" || !validInstitutionEmail) {
       return;
     }
+
+    const profilePayload = {
+      name: name.trim() || "Student Rider",
+      email: email.trim(),
+      institution: institution.trim() || "Amity University, Kolkata",
+      age: age.trim(),
+      degree: degree.trim() || "BTech Computer Science Engineering",
+      specialization: specialization.trim() || "Artificial Intelligence & Data Science",
+    };
+
     setVerifyState("loading");
     window.setTimeout(() => {
+      authenticateUser(profilePayload);
       setVerifyState("done");
       window.setTimeout(() => {
         setStep(2);
@@ -139,11 +157,62 @@ export default function CommuteTab() {
 
             <div className="space-y-4">
               <div>
+                <div className="mb-2 text-[10px] uppercase tracking-[0.25em] text-slate-500">Full Name</div>
+                <input
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Subhasree Majumder"
+                  className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-300"
+                />
+              </div>
+
+              <div>
                 <div className="mb-2 text-[10px] uppercase tracking-[0.25em] text-slate-500">Academic Email (.edu / .ac.in)</div>
                 <input
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="student@university.edu"
+                  className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-300"
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <div className="mb-2 text-[10px] uppercase tracking-[0.25em] text-slate-500">Institution</div>
+                  <input
+                    value={institution}
+                    onChange={(event) => setInstitution(event.target.value)}
+                    placeholder="Amity University, Kolkata"
+                    className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-300"
+                  />
+                </div>
+                <div>
+                  <div className="mb-2 text-[10px] uppercase tracking-[0.25em] text-slate-500">Age</div>
+                  <input
+                    value={age}
+                    onChange={(event) => setAge(event.target.value)}
+                    placeholder="21"
+                    className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-300"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-2 text-[10px] uppercase tracking-[0.25em] text-slate-500">Degree</div>
+                <input
+                  value={degree}
+                  onChange={(event) => setDegree(event.target.value)}
+                  placeholder="BTech Computer Science Engineering"
+                  className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-300"
+                />
+              </div>
+
+              <div>
+                <div className="mb-2 text-[10px] uppercase tracking-[0.25em] text-slate-500">Specialization</div>
+                <input
+                  value={specialization}
+                  onChange={(event) => setSpecialization(event.target.value)}
+                  placeholder="Artificial Intelligence & Data Science"
                   className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-300"
                 />
               </div>

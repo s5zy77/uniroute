@@ -1,17 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
-const profileRecords = [
-  {
-    id: "main",
-    name: "Subhasree Majumder",
-    institution: "Amity University, Kolkata",
-    degree: "BTech Computer Science Engineering",
-    specialization: "Artificial Intelligence & Data Science",
-    statusBadge: "INSTITUTIONAL DOMAIN AUTHENTICATED (.EDU / .AC.IN)",
-    initials: "SM",
-    verified: true,
-    colorClass: "text-amber-300",
-  },
+const matchedProfiles = [
   {
     id: "ranish",
     name: "Ranish Dutta",
@@ -53,6 +42,20 @@ const profileRecords = [
     colorClass: "text-teal-300",
   },
 ];
+
+const defaultUserProfile = {
+  id: "main",
+  name: "",
+  email: "",
+  institution: "",
+  age: "",
+  degree: "",
+  specialization: "",
+  statusBadge: "",
+  initials: "",
+  verified: false,
+  colorClass: "text-amber-300",
+};
 
 const initialPerks = [
   {
@@ -112,6 +115,8 @@ export function AppProvider({ children }) {
   const [highlightedRewardId, setHighlightedRewardId] = useState(initialSession.highlightedRewardId);
   const [couponFlash, setCouponFlash] = useState(initialSession.couponFlash);
   const [perks, setPerks] = useState(initialPerks);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(defaultUserProfile);
 
   const redeemPerk = useCallback((perkId) => {
     setPerks((current) =>
@@ -119,6 +124,41 @@ export function AppProvider({ children }) {
         perk.id === perkId ? { ...perk, claimed: true } : perk
       )
     );
+  }, []);
+
+  const authenticateUser = useCallback((profile) => {
+    const initials = profile.name
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((segment) => segment[0].toUpperCase())
+      .join("");
+
+    const verifiedProfile = {
+      ...defaultUserProfile,
+      ...profile,
+      initials: initials || "ST",
+      verified: true,
+      statusBadge: "INSTITUTIONAL DOMAIN AUTHENTICATED (.EDU / .AC.IN)",
+    };
+
+    setCurrentUser(verifiedProfile);
+    setIsAuthenticated(true);
+    setActiveTab("commute");
+  }, []);
+
+  const updateCurrentUserProfile = useCallback((updates) => {
+    setCurrentUser((current) => {
+      if (!current) return current;
+      const nextProfile = { ...current, ...updates };
+      const initials = nextProfile.name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((segment) => segment[0].toUpperCase())
+        .join("");
+      return { ...nextProfile, initials: initials || current.initials };
+    });
   }, []);
 
   const triggerRewardHighlight = useCallback((perkId) => {
@@ -130,9 +170,16 @@ export function AppProvider({ children }) {
     }, 1600);
   }, []);
 
+  const profiles = useMemo(
+    () => (currentUser && isAuthenticated ? [currentUser, ...matchedProfiles] : matchedProfiles),
+    [currentUser, isAuthenticated]
+  );
+
   const value = useMemo(
     () => ({
-      profiles: profileRecords,
+      profiles,
+      currentUser,
+      isAuthenticated,
       stats: initialStats,
       activeTab,
       setActiveTab,
@@ -147,8 +194,10 @@ export function AppProvider({ children }) {
       triggerRewardHighlight,
       redeemPerk,
       perks,
+      authenticateUser,
+      updateCurrentUserProfile,
     }),
-    [activeTab, selectedHub, selectedRideType, matchedHeadcount, highlightedRewardId, couponFlash, perks, redeemPerk, triggerRewardHighlight]
+    [profiles, currentUser, isAuthenticated, activeTab, selectedHub, selectedRideType, matchedHeadcount, highlightedRewardId, couponFlash, perks, redeemPerk, triggerRewardHighlight, authenticateUser, updateCurrentUserProfile]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

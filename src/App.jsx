@@ -5,7 +5,7 @@ import RewardsTab from "./components/tabs/RewardsTab";
 import BottomNav from "./components/ui/BottomNav";
 
 function MainShell() {
-  const { activeTab } = useAppContext();
+  const { activeTab, isAuthenticated } = useAppContext();
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4 py-6">
@@ -13,8 +13,8 @@ function MainShell() {
         <div className="flex h-full flex-col">
           <div className="flex-1 overflow-hidden">
             {activeTab === "commute" && <CommuteTab />}
-            {activeTab === "rewards" && <RewardsTab />}
-            {activeTab === "profile" && <ProfileTab />}
+            {activeTab === "rewards" && isAuthenticated && <RewardsTab />}
+            {activeTab === "profile" && isAuthenticated && <ProfileTab />}
           </div>
           <BottomNav />
         </div>
