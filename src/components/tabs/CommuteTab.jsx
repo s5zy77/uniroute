@@ -45,9 +45,10 @@ export default function CommuteTab() {
     triggerRewardHighlight,
     authenticateUser,
     currentUser,
+    commuteStep,
+    setCommuteStep,
   } = useAppContext();
 
-  const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -98,7 +99,7 @@ export default function CommuteTab() {
 
     const overlayTimeout = window.setTimeout(() => {
       setShowOverlay(false);
-      setStep(3);
+      setCommuteStep(3);
     }, 3500);
 
     return () => {
@@ -126,7 +127,7 @@ export default function CommuteTab() {
       authenticateUser(profilePayload);
       setVerifyState("done");
       window.setTimeout(() => {
-        setStep(2);
+        setCommuteStep(2);
       }, 900);
     }, 1500);
   };
@@ -136,7 +137,7 @@ export default function CommuteTab() {
   };
 
   const handleConfirmRide = () => {
-    setStep(4);
+    setCommuteStep(4);
   };
 
   const handleActivateCoupon = () => {
@@ -145,7 +146,7 @@ export default function CommuteTab() {
 
   return (
     <div className="flex h-full flex-col overflow-hidden bg-slate-950 text-slate-100">
-      {step === 1 && (
+      {commuteStep === 1 && (
         <div className="flex h-full flex-col gap-5 overflow-y-auto px-5 py-6">
           <div className="space-y-2">
             <p className="text-2xl font-semibold tracking-[0.18em] text-amber-300">UniRoute</p>
@@ -261,7 +262,7 @@ export default function CommuteTab() {
         </div>
       )}
 
-      {step === 2 && (
+      {commuteStep === 2 && (
         <div className="flex h-full flex-col overflow-hidden">
           <div className="rounded-b-[32px] bg-amber-300 px-5 py-4 text-slate-950">
             <p className="text-sm font-semibold">Welcome, {currentUser?.name || "Student Rider"}</p>
@@ -353,7 +354,7 @@ export default function CommuteTab() {
         </div>
       )}
 
-      {step === 3 && (
+      {commuteStep === 3 && (
         <div className="flex h-full flex-col overflow-hidden">
           <div className="flex items-center gap-3 rounded-b-[32px] bg-amber-300 px-5 py-4 text-slate-950">
             <CheckCircle2 size={20} />
@@ -432,7 +433,7 @@ export default function CommuteTab() {
         </div>
       )}
 
-      {step === 4 && (
+      {commuteStep === 4 && (
         <div className="flex h-full flex-col overflow-hidden">
           <div className="flex items-center gap-4 rounded-b-[32px] border-b border-slate-800 bg-slate-900 px-5 py-4 text-slate-100">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-900 text-emerald-300">

@@ -86,6 +86,7 @@ const initialPerks = [
 
 const initialSession = {
   activeTab: "commute",
+  commuteStep: 1,
   selectedHub: "Salt Lake Sector V Metro Exit",
   selectedRideType: "Shared E-Rickshaw (Toto)",
   matchedHeadcount: 3,
@@ -109,6 +110,7 @@ const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
   const [activeTab, setActiveTab] = useState(initialSession.activeTab);
+  const [commuteStep, setCommuteStep] = useState(initialSession.commuteStep);
   const [selectedHub, setSelectedHub] = useState(initialSession.selectedHub);
   const [selectedRideType, setSelectedRideType] = useState(initialSession.selectedRideType);
   const [matchedHeadcount, setMatchedHeadcount] = useState(initialSession.matchedHeadcount);
@@ -145,6 +147,7 @@ export function AppProvider({ children }) {
     setCurrentUser(verifiedProfile);
     setIsAuthenticated(true);
     setActiveTab("commute");
+    setCommuteStep(2);
   }, []);
 
   const updateCurrentUserProfile = useCallback((updates) => {
@@ -183,6 +186,8 @@ export function AppProvider({ children }) {
       stats: initialStats,
       activeTab,
       setActiveTab,
+      commuteStep,
+      setCommuteStep,
       selectedHub,
       setSelectedHub,
       selectedRideType,
@@ -197,7 +202,7 @@ export function AppProvider({ children }) {
       authenticateUser,
       updateCurrentUserProfile,
     }),
-    [profiles, currentUser, isAuthenticated, activeTab, selectedHub, selectedRideType, matchedHeadcount, highlightedRewardId, couponFlash, perks, redeemPerk, triggerRewardHighlight, authenticateUser, updateCurrentUserProfile]
+    [profiles, currentUser, isAuthenticated, activeTab, commuteStep, selectedHub, selectedRideType, matchedHeadcount, highlightedRewardId, couponFlash, perks, redeemPerk, triggerRewardHighlight, authenticateUser, updateCurrentUserProfile]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
