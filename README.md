@@ -1,18 +1,27 @@
 # UniRoute
 
-UniRoute is a mobile-first React application designed as a premium student commute experience. The repository contains a modular, production-ready codebase with Tailwind CSS styling, a reactive commute state machine, a live hex-grid discovery map, rewards management, and verified profile analytics.
+**UniRoute** is a mobile-first React application built for student commute matching, campus rewards, and verified identity analytics.
+
+## Project summary
+
+| Area | Details |
+| --- | --- |
+| Platform | React + Vite + Tailwind CSS |
+| Deployment target | GitHub Pages (`/uniroute/`) |
+| Key experience | Institutional ride matching, live spatial discovery, arrival receipt, campus perks |
+| Styled for | Mobile-first web with desktop-centered premium frame |
 
 ## Features
 
-- Mobile-responsive app shell with centered desktop preview and full-screen mobile layout
-- Decoupled React components for clean architecture and future backend integration
-- Global app context for persistent user session, wallet data, and perks ledger
-- Reactive commute workflow with institutional email verification, live matching overlay, and arrival receipt
-- Custom H3-style spatial hex-grid visualization and animated vehicle indicators
-- Rewards tab with campus coupon ledger and claim handling
-- Profile analytics dashboard showing full user identity and commute metrics
+| Feature | What it does |
+| --- | --- |
+| Login & identity verification | Validates institutional email domains `.edu` / `.ac.in` with mock JWT workflow |
+| Live hub discovery | Hub selector, destination lock, animated H3-style map, nearby vehicle indicators |
+| Ride matching | Full queue overlay, matched verified peers, dynamic fare split calculator |
+| Rewards ledger | Campus coupons, claim status, highlighted reward triggers |
+| Profile analytics | Wallet balance, pooled rides, cash saved, carbon offset metrics |
 
-## Getting Started
+## Getting started
 
 ### Install dependencies
 
@@ -26,26 +35,35 @@ npm install
 npm run dev
 ```
 
-### Build for production
+### Build and deploy to GitHub Pages
 
 ```bash
-npm run build
+npm run deploy
 ```
+
+Then commit the generated `docs/` folder and push to `main`, or configure GitHub Pages to serve from the `docs` folder in repo settings.
+
+## Deployment notes
+
+- `vite.config.js` is updated to use `base: "/uniroute/"`.
+- Build output is written to the `docs/` directory for GitHub Pages.
+- GitHub Pages source should be set to the `docs/` folder on `main`.
 
 ## Project structure
 
-- `src/context/AppContext.jsx` — global state provider
-- `src/components/ui/HexGrid.jsx` — animated hex-grid visualization
-- `src/components/ui/QRCode.jsx` — driver verification QR canvas
-- `src/components/ui/BottomNav.jsx` — persistent bottom navigation
-- `src/components/tabs/CommuteTab.jsx` — commute workflow state machine
-- `src/components/tabs/RewardsTab.jsx` — campus perks ledger
-- `src/components/tabs/ProfileTab.jsx` — verified profile and analytics
-- `src/index.jsx` — application bootstrap
-- `src/index.css` — Tailwind utility setup and animation definitions
+| File | Purpose |
+| --- | --- |
+| `src/context/AppContext.jsx` | Global state provider and persistence layer |
+| `src/components/ui/HexGrid.jsx` | Animated H3 spatial grid component |
+| `src/components/ui/QRCode.jsx` | QR ticket rendering component |
+| `src/components/ui/BottomNav.jsx` | Sticky bottom navigation bar |
+| `src/components/tabs/CommuteTab.jsx` | 4-stage commute workflow state machine |
+| `src/components/tabs/RewardsTab.jsx` | Campus perks and coupon ledger |
+| `src/components/tabs/ProfileTab.jsx` | Verified profile vault and analytics |
+| `src/index.jsx` | React bootstrap entry point |
+| `src/index.css` | Tailwind setup and custom animations |
 
 ## Notes
 
-- The app is currently set up for Vite and Tailwind CSS.
-- The code uses mock state and client-side verification flows for demonstration.
-- A Git repository is initialized locally; add a remote and push to GitHub to publish the repo.
+- The UI and workflow are client-driven and ready for integration with backend services.
+- Use the `deploy` script to generate static assets compatible with GitHub Pages.
