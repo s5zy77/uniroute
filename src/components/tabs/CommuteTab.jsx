@@ -264,7 +264,7 @@ export default function CommuteTab() {
       {step === 2 && (
         <div className="flex h-full flex-col overflow-hidden">
           <div className="rounded-b-[32px] bg-amber-300 px-5 py-4 text-slate-950">
-            <p className="text-sm font-semibold">Live Hub Home</p>
+            <p className="text-sm font-semibold">Welcome, {currentUser?.name || "Student Rider"}</p>
             <p className="mt-1 text-[11px] font-medium text-slate-800/90">Local commuter launch and vehicle discovery</p>
           </div>
 

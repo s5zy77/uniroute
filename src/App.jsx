@@ -13,8 +13,8 @@ function MainShell() {
         <div className="flex h-full flex-col">
           <div className="flex-1 overflow-hidden">
             {activeTab === "commute" && <CommuteTab />}
-            {activeTab === "rewards" && isAuthenticated && <RewardsTab />}
-            {activeTab === "profile" && isAuthenticated && <ProfileTab />}
+            {isAuthenticated && activeTab === "rewards" && <RewardsTab />}
+            {isAuthenticated && activeTab === "profile" && <ProfileTab />}
           </div>
           <BottomNav />
         </div>
